@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Promo Codes | The Culinary Hub{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+  <h2 class="text-center mb-4 fw-bold">Active Promo Codes 🎁</h2>
+
+  <div class="row justify-content-center">
+    {% for promo in promos %}
+      <div class="col-md-4 col-sm-6 col-10 mb-4">
+        <div class="card shadow promo-card border-success border-2">
+          <div class="card-body text-center">
+            <h5 class="card-title text-success fw-bold">{{ promo.code }}</h5>
+            <p class="card-text text-muted">
+              {{ promo.discount_type|title }} discount of 
+              {% if promo.discount_type == 'percentage' %}
+                {{ promo.discount_value }}%
+              {% else %}
+                ₹{{ promo.discount_value }}
+              {% endif %}
+            </p>
+            <p class="small text-danger">Valid until: {{ promo.expiry_date }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="text-center">
+        <p class="text-muted">No active promo codes right now.</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

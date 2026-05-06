@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Blog{% endblock %}
+{% block extra_css %}
+<style>
+/* Blog List Section Styles */
+.blog-list-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.blog-list-section h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.blog-list-section h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    margin: 1rem auto;
+    border-radius: 2px;
+}
+
+/* Blog Posts Container */
+.blog-posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Individual Blog Post Card */
+.blog-post-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.blog-post-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+    border-color: #cbd5e0;
+}
+
+/* Blog Post Image */
+.blog-post-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.blog-post-card:hover .blog-post-image {
+    transform: scale(1.05);
+}
+
+/* Blog Post Content */
+.blog-post-content {
+    padding: 1.5rem;
+}
+
+.blog-post-content h2 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.blog-post-content h2 a {
+    color: #1a202c;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-post-content h2 a:hover {
+    color: #667eea;
+}
+
+/* Post Meta Information */
+.post-meta {
+    color: #718096;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.blog-post-content > p:not(.post-meta) {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Read More Button */
+.read-more-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.read-more-btn:hover {
+    background: linear-gradient(45deg, #5a67d8, #6b46c1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Empty State */
+.blog-posts-container > p {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #718096;
+    padding: 3rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 2px dashed #e2e8f0;
+}
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.step-links a {
+    padding: 0.6rem 1rem;
+    background: #ffffff;
+    color: #4a5568;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.step-links a:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-1px);
+}
+
+.current {
+    padding: 0.6rem 1rem;
+    background: #667eea;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    margin: 0 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .blog-list-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .blog-list-section h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .blog-posts-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .blog-post-content {
+        padding: 1.25rem;
+    }
+    
+    .blog-post-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .step-links {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .step-links a,
+    .current {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-list-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    .blog-posts-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .blog-post-content h2 {
+        font-size: 1.2rem;
+    }
+    
+    .read-more-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .blog-list-section h1 {
+        color: #f7fafc;
+    }
+    
+    .blog-post-card {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+    
+    .blog-post-content h2 a {
+        color: #f7fafc;
+    }
+    
+    .blog-post-content h2 a:hover {
+        color: #90cdf4;
+    }
+    
+    .blog-post-content > p:not(.post-meta) {
+        color: #e2e8f0;
+    }
+    
+    .post-meta {
+        color: #a0aec0;
+    }
+    
+    .step-links a {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    
+    .blog-posts-container > p {
+        background: #2d3748;
+        color: #a0aec0;
+        border-color: #4a5568;
+    }
+}
+</style>
+{% endblock %}
+{% block content %}
+<section class="blog-list-section">
+    <h1>Our Latest Stories & News</h1>
+
+    <div class="blog-posts-container">
+        {% for post in posts %}
+            <article class="blog-post-card">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-post-image">
+                {% endif %}
+                <div class="blog-post-content">
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                    <p class="post-meta">
+                        By {{ post.author.username }} on {{ post.published_date|date:"F d, Y" }}
+                    </p>
+                    <p>{{ post.content|truncatewords:50 }}</p>
+                    <a href="{{ post.get_absolute_url }}" class="read-more-btn">Read More</a>
+                </div>
+            </article>
+        {% empty %}
+            <p>No blog posts found. Check back later!</p>
+        {% endfor %}
+    </div>
+
+    {# Pagination Controls #}
+    <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{# Add any specific JS for blog list if needed #}
+{% endblock %}

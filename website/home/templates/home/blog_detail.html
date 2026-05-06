@@ -1,0 +1,157 @@
+{% extends 'base.html' %} 
+
+{% block title %}{{ post.title }} - The Culinary Hub Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Custom CSS to make cards smaller and more compact */
+    .compact-card {
+        padding: 1.5rem !important; /* Reduced from default p-4 (2.5rem) */
+    }
+    
+    .compact-comment-card {
+        padding: 1rem !important; /* Even smaller for comment form */
+    }
+    
+    .compact-article {
+        max-width: 100%;
+    }
+    
+    /* Reduce image height */
+    .blog-image {
+        max-height: 300px !important; /* Reduced from 450px */
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    /* Reduce spacing between elements */
+    .blog-content {
+        margin-bottom: 2rem !important; /* Reduced from mb-5 */
+    }
+    
+    .compact-title {
+        margin-bottom: 1rem !important; /* Reduced from mb-3 */
+        font-size: 2.5rem !important; /* Slightly smaller than display-5 */
+    }
+    
+    /* Make comment items more compact */
+    .compact-comment {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important; /* Reduced from mb-3 */
+    }
+    
+    /* Reduce container margins */
+    .compact-container {
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    /* Optional: Reduce column width for even more compact look */
+    @media (min-width: 992px) {
+        .compact-column {
+            max-width: 700px; /* Slightly narrower than col-lg-8 */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container compact-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 compact-column">
+            <article class="card compact-card shadow-custom border-0 border-radius-custom">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="img-fluid rounded mb-3 blog-image" alt="{{ post.title }}">
+                {% endif %}
+
+                <h1 class="card-title display-5 fw-bold text-gradient compact-title">{{ post.title }}</h1>
+                <p class="text-muted mb-3">
+                    By <span class="fw-bold">{{ post.author.username }}</span> on {{ post.published_date|date:"F j, Y" }}
+                    {% if post.category %}
+                        <span class="badge bg-secondary ms-2">{{ post.category }}</span>
+                    {% endif %}
+                </p>
+                <div class="card-text fs-5 lh-base blog-content">
+                    {{ post.content|safe }} {# Use |safe if your content includes HTML (e.g., from a Rich Text Editor) #}
+                </div>
+
+                <hr class="my-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 text-muted">Published: {{ post.published_date|date:"H:i" }}</p>
+                    <div>
+                        {# Optional: Social Sharing Buttons - placeholder #}
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-facebook-f"></i> Share</a>
+                        <a href="#" class="btn btn-sm btn-outline-info"><i class="fab fa-twitter"></i> Tweet</a>
+                    </div>
+                </div>
+            </article>
+
+            {# Comments Section #}
+            <div class="mt-4">
+                <h3 class="mb-3 text-gradient">Comments ({{ comments.count }})</h3>
+                {% if comments %}
+                    <div class="list-group">
+                        {% for comment in comments %}
+                            <div class="list-group-item list-group-item-action compact-comment rounded shadow-sm">
+                                <div class="d-flex w-100 justify-content-between align-items-baseline">
+                                    <h5 class="mb-1 fw-bold">
+                                        {# CORRECTED LOGIC FOR COMMENT AUTHOR DISPLAY #}
+                                        {% if comment.author_name %}
+                                            {{ comment.author_name }}
+                                        {% elif comment.user %}
+                                            {{ comment.user.username }}
+                                        {% else %}
+                                            Anonymous
+                                        {% endif %}
+                                    </h5>
+                                    {# CORRECTED FIELD NAME: created_at changed to created_date #}
+                                    <small class="text-muted">{{ comment.created_date|timesince }} ago</small>
+                                </div>
+                                {# CORRECTED FIELD NAME: comment.content changed to comment.text #}
+                                <p class="mb-1">{{ comment.text }}</p>
+                                {% if comment.approved_comment %}
+                                    {# Optional: Show something if comment is approved #}
+                                {% else %}
+                                    <p class="text-warning small fst-italic">This comment is awaiting moderation.</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                {% endif %}
+            </div>
+
+            {# Add Comment Form #}
+            <div class="mt-4 card compact-comment-card shadow-custom border-0 border-radius-custom">
+                <h3 class="mb-3 text-gradient">Leave a Comment</h3>
+                
+    
+
+                <form method="post">
+                    {% csrf_token %}
+                    {# NO CRISPY FORMS - Rendering fields individually for basic Bootstrap styling #}
+                    {% for field in comment_form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text text-muted">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div> {# d-block makes it visible #}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+{# Any specific JS for blog detail if needed, e.g., for showing/hiding comment form #}
+{% endblock %}

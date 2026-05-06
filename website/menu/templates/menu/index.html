@@ -1,0 +1,739 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu | The Culinary Hub{% endblock %}
+
+{% block content %}
+<style>
+    /* 🎨 CSS Variables for consistent theming */
+    :root {
+        /* Reusing colors from base.html for consistency */
+        --primary-color: #e94560; /* Accent color from base.html */
+        --secondary-color: #16213e; /* Secondary color from base.html */
+        --accent-color: #f39c12; /* Accent light from base.html */
+        --gold-color: #ffd700;
+        --dark-overlay: rgba(0, 0, 0, 0.6);
+        --glass-bg: rgba(255, 255, 255, 0.9); /* Lighter background for cards */
+        --glass-border: rgba(0, 0, 0, 0.1); /* Lighter border */
+        --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        --hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        --border-radius: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        /* New text colors for better contrast on lighter backgrounds */
+        --text-menu-dark: #333;
+        --text-menu-light: #666;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        /* Removed custom background gradient; base.html's bg-pattern will apply */
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif; /* Consistent with base.html */
+        min-height: 100vh;
+        color: var(--text-menu-dark); /* Default text color for menu page */
+    }
+
+    /* 🌟 Main Content Overlay - adjust padding if needed */
+    .menu-content-overlay {
+        position: relative;
+        z-index: 2;
+        padding: 2rem 1rem; /* Keep some padding */
+        min-height: 100vh;
+    }
+
+    /* 🎯 Floating Header */
+    .floating-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        animation: fadeInDown 1s ease;
+    }
+
+    .floating-header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        /* Using a gradient that aligns with base.html's accent color */
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    }
+
+    .floating-header p {
+        color: var(--text-menu-light); /* Darker text for readability */
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    /* 🏆 Enhanced Highlights Section - Reduced Card Size */
+    .highlights-section {
+        margin-bottom: 3rem;
+        animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .highlight-card {
+        background: var(--glass-bg); /* Lighter background */
+        backdrop-filter: blur(10px); /* Slightly less blur */
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        padding: 1rem; /* Reduced padding */
+        text-align: center;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        color: var(--text-menu-dark); /* Darker text */
+        box-shadow: var(--card-shadow); /* Added initial shadow */
+    }
+
+    .highlight-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); /* Stronger shimmer */
+        transition: var(--transition);
+    }
+
+    .highlight-card:hover::before {
+        left: 100%;
+    }
+
+    .highlight-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: var(--hover-shadow);
+        border-color: var(--primary-color);
+    }
+
+    .highlight-card .icon {
+        font-size: 2rem; /* Slightly smaller icon */
+        margin-bottom: 0.6rem; /* Reduced margin */
+        display: block;
+        color: var(--primary-color); /* Use accent color for icons */
+    }
+
+    .highlight-card h6 {
+        color: var(--text-menu-light); /* Adjusted color */
+        font-size: 0.8rem; /* Slightly smaller font */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.6rem; /* Reduced margin */
+    }
+
+    .highlight-card .value {
+        font-size: 1rem; /* Slightly smaller font */
+        font-weight: 700;
+        color: var(--text-menu-dark); /* Adjusted color */
+        margin-bottom: 0.4rem; /* Reduced margin */
+    }
+
+    .top-review-card {
+        background: linear-gradient(135deg, #fceabb, #f8b500); /* A softer gold gradient */
+        color: #5a4a00; /* Darker text for contrast on gold */
+        border: 1px solid rgba(255, 255, 255, 0.5); /* Adjusted border */
+    }
+
+    .top-review-card .icon {
+        color: #8b6e00; /* Darker gold for icon */
+    }
+
+    .top-review-card h6,
+    .top-review-card .value {
+        color: #5a4a00; /* Consistent dark text */
+    }
+
+    /* 🔍 Enhanced Filters */
+    .filters-section {
+        margin-bottom: 2.5rem;
+        animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .filter-container {
+        background: var(--glass-bg); /* Lighter background */
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        box-shadow: var(--card-shadow);
+    }
+
+    .filter-input {
+        background: rgba(0, 0, 0, 0.05); /* Lighter input background */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        color: var(--text-menu-dark);
+        transition: var(--transition);
+        min-width: 180px;
+    }
+
+    .filter-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+        background: rgba(0, 0, 0, 0.08);
+    }
+
+    .filter-input::placeholder {
+        color: var(--text-menu-light);
+    }
+
+    .filter-select {
+        background: rgba(0, 0, 0, 0.05); /* Lighter select background */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        color: var(--text-menu-dark);
+        transition: var(--transition);
+        min-width: 140px;
+        appearance: none; /* Remove default arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M7%2010l5%205%205-5H7z%22/%3E%3C/svg%3E'); /* Custom arrow */
+        background-repeat: no-repeat;
+        background-position: right 0.7em top 50%, 0 0;
+        background-size: 0.65em auto, 100%;
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(22, 33, 62, 0.2);
+    }
+
+    .filter-select option {
+        background: var(--bg-card); /* Should align with your base.html card background */
+        color: var(--text-dark); /* Should align with your base.html text color */
+    }
+
+    .filter-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-menu-dark); /* Adjusted color */
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+    }
+
+    .filter-checkbox:hover {
+        background: rgba(0, 0, 0, 0.05); /* Lighter hover */
+    }
+
+    .filter-checkbox input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--primary-color);
+    }
+
+    .filter-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); /* Consistent with header gradient */
+        border: none;
+        border-radius: 10px;
+        padding: 0.7rem 1.5rem;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .filter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(233, 69, 96, 0.3); /* Adjusted shadow */
+    }
+
+    /* 🍽️ Compact Menu Cards - Adjusted for normal size and better colors */
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly wider cards */
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+
+    .menu-card {
+        background: var(--bg-card); /* Use base.html's card background */
+        border: 1px solid rgba(0, 0, 0, 0.05); /* Very light border */
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: var(--transition);
+        position: relative;
+        height: auto; /* Allow height to adjust naturally */
+        display: flex;
+        flex-direction: column;
+        animation: fadeInUp 0.6s ease var(--delay, 0s) both;
+        box-shadow: var(--card-shadow); /* Added initial shadow */
+    }
+
+    .menu-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--hover-shadow);
+        border-color: var(--primary-color); /* Highlight border on hover */
+    }
+
+    .menu-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: none; /* Removed the strong background gradient overlay on hover */
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .menu-card:hover::before {
+        opacity: 0; /* Keep it hidden */
+    }
+
+    .menu-card-image {
+        height: 180px; /* Slightly taller images */
+        object-fit: cover;
+        transition: var(--transition);
+        position: relative;
+        z-index: 1;
+    }
+
+    .menu-card:hover .menu-card-image {
+        transform: scale(1.03); /* Less aggressive zoom */
+    }
+
+    .menu-card-body {
+        padding: 1.2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 2;
+        color: var(--text-dark); /* Use base.html's text-dark */
+    }
+
+    .menu-card-title {
+        font-size: 1.2rem; /* Slightly larger title */
+        font-weight: 700;
+        color: var(--primary-color); /* Accent color for title */
+        margin-bottom: 0.4rem;
+        line-height: 1.2;
+    }
+
+    .menu-card-category {
+        color: var(--secondary-color); /* Use secondary color for category */
+        font-size: 0.85rem; /* Slightly larger */
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.6rem;
+    }
+
+    .menu-card-description {
+        color: var(--text-light); /* Use base.html's text-light */
+        line-height: 1.5;
+        margin-bottom: 0.8rem;
+        flex-grow: 1;
+        font-size: 0.95rem; /* Slightly larger description */
+    }
+
+    .menu-card-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .rating-stars {
+        color: var(--gold-color);
+        font-size: 1rem;
+    }
+
+    .rating-value {
+        color: var(--text-dark); /* Darker color for rating value */
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .menu-card-price {
+        font-size: 1.4rem; /* Slightly larger price */
+        font-weight: 800;
+        color: var(--primary-color); /* Primary color for price */
+        margin-bottom: 1rem;
+    }
+
+    .menu-card-actions {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .menu-btn {
+        flex: 1;
+        min-width: 110px; /* Slightly wider buttons */
+        padding: 0.7rem 1rem; /* Adjusted padding */
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        font-size: 0.9rem; /* Slightly larger font */
+    }
+
+    .menu-btn-primary {
+        background: var(--gradient-accent); /* Use base.html accent gradient */
+        color: white;
+    }
+
+    .menu-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4); /* Adjusted shadow */
+        color: white;
+    }
+
+    .menu-btn-secondary {
+        background: var(--bg-light); /* Use a light background from base.html */
+        color: var(--primary-color); /* Accent color text */
+        border: 1px solid var(--primary-color); /* Accent color border */
+    }
+
+    .menu-btn-secondary:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(233, 69, 96, 0.2);
+    }
+
+    /* 🎭 Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 🔄 Loading Animation */
+    .loading-shimmer {
+        background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.05) 0%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.05) 100%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    /* 📱 Responsive Design */
+    @media (max-width: 768px) {
+        .floating-header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .filter-container {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .filter-input,
+        .filter-select {
+            min-width: 200px;
+        }
+        
+        .menu-grid {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.2rem;
+        }
+        
+        .menu-card-actions {
+            flex-direction: column;
+        }
+
+        .highlight-card {
+            padding: 0.8rem; /* Further reduced for small screens */
+        }
+        .highlight-card .icon {
+            font-size: 1.8rem;
+        }
+        .highlight-card h6 {
+            font-size: 0.75rem;
+        }
+        .highlight-card .value {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .floating-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .highlight-card {
+            padding: 1rem;
+        }
+        
+        .filter-container {
+            padding: 1.2rem;
+        }
+        
+        .menu-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .menu-card-image {
+            height: 150px; /* Smaller image height on very small screens */
+        }
+    }
+
+    /* 🌈 Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --glass-bg: rgba(0, 0, 0, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-menu-dark: #eee;
+            --text-menu-light: #bbb;
+        }
+
+        .filter-input,
+        .filter-select {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-menu-dark);
+        }
+
+        .filter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .filter-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .filter-checkbox:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-card {
+            background: var(--bg-dark); /* Use darker background for cards in dark mode */
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-card-body {
+            color: var(--text-white);
+        }
+
+        .menu-card-description, .menu-card-rating .rating-value {
+            color: var(--text-light);
+        }
+
+        .menu-btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+            border: 1px solid var(--secondary-color);
+        }
+
+        .menu-btn-secondary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+    }
+</style>
+
+<div class="container menu-content-overlay">
+    
+    <div class="floating-header">
+        <h1>Our Menu</h1>
+        <p>Discover culinary excellence in every dish</p>
+    </div>
+
+    <div class="highlights-section">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="highlight-card">
+                    <span class="icon">🍽️</span>
+                    <h6>Most Ordered</h6>
+                    {% if most_ordered %}
+                        <div class="value">{{ most_ordered.name }}</div>
+                    {% else %}
+                        <div class="value">No data yet</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="highlight-card">
+                    <span class="icon">⭐</span>
+                    <h6>Best Rated Dish</h6>
+                    {% if best_dish %}
+                        <div class="value">{{ best_dish.name }}</div>
+                        <div style="color: var(--text-menu-light); margin-top: 0.5rem;">
+                            {{ best_dish.avg_rating|floatformat:1 }}/5 stars
+                        </div>
+                    {% else %}
+                        <div class="value">No data yet</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="highlight-card top-review-card">
+                    <span class="icon">💬</span>
+                    <h6>Top Review</h6>
+                    {% if top_review %}
+                        <div class="value">"{{ top_review.comment|truncatewords:8 }}"</div>
+                        <div style="margin-top: 0.5rem; font-style: italic; color: inherit;">
+                            – {{ top_review.user.username }}
+                        </div>
+                    {% else %}
+                        <div class="value">No reviews yet</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="filters-section">
+        <form method="get" class="filter-container">
+            <input type="text" name="q" class="filter-input" placeholder="🔍 Search dishes..." value="{{ request.GET.q }}">
+            
+            <select name="category" class="filter-select">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>
+                        {{ cat.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            <label class="filter-checkbox">
+                <input type="checkbox" name="veg" {% if request.GET.veg %}checked{% endif %}>
+                <span>🥬 Vegetarian</span>
+            </label>
+            
+            <label class="filter-checkbox">
+                <input type="checkbox" name="vegan" {% if request.GET.vegan %}checked{% endif %}>
+                <span>🌱 Vegan</span>
+            </label>
+            
+            <label class="filter-checkbox">
+                <input type="checkbox" name="gluten" {% if request.GET.gluten %}checked{% endif %}>
+                <span>🌾 Gluten-Free</span>
+            </label>
+            
+            <button type="submit" class="filter-btn">✨ Filter</button>
+        </form>
+    </div>
+
+    <div class="menu-grid">
+        {% for item in items %}
+            <div class="menu-card" style="--delay: {{ forloop.counter0|floatformat:1 }}s;">
+                <img src="{{ item.image.url }}" class="menu-card-image" alt="{{ item.name }}">
+                <div class="menu-card-body">
+                    <h3 class="menu-card-title">{{ item.name }}</h3>
+                    <div class="menu-card-category">{{ item.category.name }}</div>
+                    <p class="menu-card-description">{{ item.description|truncatewords:12 }}</p>
+                    
+                    <div class="menu-card-rating">
+                        <span class="rating-stars">
+                            {% with item.avg_rating|default:"0"|floatformat:0 as rating %}
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= rating %}⭐{% else %}☆{% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </span>
+                        <span class="rating-value">{{ item.avg_rating|default:"0.0"|floatformat:1 }}</span>
+                    </div>
+                    
+                    <div class="menu-card-price">₹{{ item.price }}</div>
+                    
+                    <div class="menu-card-actions">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'menu:add_to_cart' item.id %}" class="menu-btn menu-btn-primary">
+                                🛒 Add to Cart
+                            </a>
+                            <a href="{% url 'menu:add_review' item.id %}" class="menu-btn menu-btn-secondary">
+                                📝 Review
+                            </a>
+                        {% else %}
+                            <a href="{% url 'home:login' %}?next={% url 'menu:index' %}" class="menu-btn menu-btn-primary">
+                                🔐 Login to Order
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center" style="grid-column: 1 / -1;">
+                <div class="highlight-card" style="display: inline-block; padding: 2rem;">
+                    <span class="icon">🍽️</span>
+                    <h6>No Items Found</h6>
+                    <div class="value">Try adjusting your filters</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Staggered animation for menu cards
+    const menuCards = document.querySelectorAll('.menu-card');
+    menuCards.forEach((card, index) => {
+        card.style.setProperty('--delay', `${index * 0.08}s`);
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block title %}Your Cart - The Culinary Hub{% endblock %}
+
+{% block content %}
+    <style>
+        /* General Body Styles - if not already in base.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fdf7f0 0%, #f8f4f0 100%);
+            line-height: 1.6;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* H2 Title (Your Cart) */
+        h2 {
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Table Styles (based on your existing <table> structure) */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white; /* Added to make table background white like the example */
+            border-radius: 15px; /* Added for rounded corners */
+            overflow: hidden; /* Ensures rounded corners apply to content */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Added for shadow */
+            margin-bottom: 30px; /* Spacing below table */
+        }
+
+        .table thead {
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            color: white;
+        }
+
+        .table th,
+        .table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table th {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, #fdf7f0 0%, #f8f4f0 100%);
+            transition: background 0.3s ease;
+        }
+
+        /* Styles for text-end and total */
+        .text-end {
+            text-align: right;
+            margin-bottom: 30px; /* Spacing above button */
+        }
+
+        .text-end h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        /* Alert style for empty cart */
+        .alert {
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            background-color: #e0f7fa; /* Light blue for info */
+            color: #00796b; /* Darker blue-green */
+            border: 1px solid #b2ebf2;
+            text-align: center;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-block; /* Ensures padding and margin work correctly */
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Specific mobile adjustments for table */
+        @media (max-width: 768px) {
+            .table th,
+            .table td {
+                padding: 10px; /* Reduce padding on smaller screens */
+                font-size: 0.9rem; /* Smaller font size */
+            }
+            .text-end h5 {
+                font-size: 1.2rem; /* Smaller total font size */
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Removed styles that depend on HTML elements not present in your current structure */
+        /* .breadcrumb, .cart-summary, .cart-info, .cart-stat, .continue-shopping, .item-details, .item-image, .item-name, .item-description, .quantity-controls, .qty-btn, .qty-display, .price-cell, .subtotal-cell, .remove-item, .cart-total, .total-row, .coupon-section, .coupon-input, .action-buttons, .btn-secondary, .empty-cart, .empty-cart-icon */
+
+    </style>
+
+    <div class="container">
+        <h2 class="mb-4">Your Cart</h2>
+
+        {% if cart_items %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.item.price }}</td>
+                            <td>₹{{ item.item.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="text-end">
+                <h5>Total: ₹{{ total|floatformat:2 }}</h5>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Your cart is empty 🛒
+            </div>
+        {% endif %}
+        <a href="{% url 'menu:place_order' %}" class="btn btn-primary">Proceed to Order</a>
+    </div>
+
+    {% endblock %}

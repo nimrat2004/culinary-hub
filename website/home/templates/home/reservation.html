@@ -1,0 +1,1326 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Table - The Culinary Hub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Enhanced Color Palette */
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #e94560;
+            --accent-light: #f39c12;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --text-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-dark: #0f0f23;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.12);
+            --shadow-heavy: rgba(0, 0, 0, 0.20);
+            --border-radius: 16px;
+            --border-radius-small: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --gradient-accent: linear-gradient(135deg, #e94560 0%, #f39c12 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex; /* Added for sticky footer layout */
+            flex-direction: column; /* Added for sticky footer layout */
+        }
+
+        /* Enhanced Navigation Styles */
+        .navbar {
+            background: var(--gradient-card) !important;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            padding: 0.8rem 0; /* Reduced padding for a more compact navbar */
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Styles for the logo image */
+        .navbar-brand img {
+            height: 35px; /* Adjust height as needed for your logo */
+            margin-right: 8px; /* Space between logo and text */
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; /* Slightly reduced font size for brand */
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            transition: var(--transition);
+            position: relative;
+            display: flex; /* Allows image and text to align */
+            align-items: center; /* Vertically center image and text */
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; /* Adjusted position */
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.02); /* Slightly less aggressive scale on hover */
+        }
+
+        .navbar .nav-link {
+            font-weight: 500;
+            margin-right: 5px; /* Reduced margin between nav links */
+            color: var(--text-dark) !important;
+            position: relative;
+            padding: 0.5rem 1rem !important; /* Reduced padding for nav links */
+            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+            font-size: 0.9rem; /* Slightly smaller font size */
+        }
+
+        .navbar .nav-link:hover {
+            color: var(--accent-color) !important;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(243, 156, 18, 0.1) 100%);
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .navbar .nav-link:hover::after {
+            width: 80%;
+        }
+
+        /* Enhanced Search Form */
+        .navbar .form-control {
+            border-radius: var(--border-radius-small); /* Slightly smaller border radius */
+            border: 1px solid transparent; /* Reduced border thickness */
+            padding: 0.5rem 1rem; /* Reduced padding for search input */
+            transition: var(--transition);
+            box-shadow: 0 2px 8px var(--shadow-light); /* Lighter shadow */
+            background: var(--bg-card);
+            font-size: 0.85rem; /* Smaller font size */
+        }
+
+        .navbar .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.15rem rgba(233, 69, 96, 0.2); /* Smaller focus shadow */
+            transform: translateY(-1px);
+        }
+
+        .navbar .btn-outline-success {
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--accent-color); /* Reduced border thickness */
+            color: var(--accent-color);
+            padding: 0.5rem 1.2rem; /* Reduced padding for search button */
+            font-weight: 600;
+            transition: var(--transition);
+            background: transparent;
+            font-size: 0.85rem; /* Smaller font size */
+        }
+
+        .navbar .btn-outline-success:hover {
+            background: var(--gradient-accent);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.2); /* Lighter shadow */
+            color: white;
+        }
+
+        /* Enhanced Cart and User Icons */
+        .fa-shopping-cart, .fa-user-circle {
+            font-size: 1.3rem; /* Reduced icon size */
+            color: var(--primary-color) !important;
+            transition: var(--transition);
+            padding: 0.15rem; /* Reduced padding around icons */
+            border-radius: 50%;
+            background: rgba(233, 69, 96, 0.08); /* Lighter background */
+        }
+
+        .fa-shopping-cart:hover, .fa-user-circle:hover {
+            color: var(--accent-color) !important;
+            transform: scale(1.1); /* Slightly less aggressive scale on hover */
+            background: rgba(233, 69, 96, 0.15); /* Slightly darker background on hover */
+        }
+
+        /* Custom spacing for icons in navbar */
+        .navbar-nav.align-items-center {
+            gap: 0.4rem; /* Controls spacing between cart and user icons */
+        }
+
+        /* Adjust margin for the first icon to control spacing from search bar */
+        .navbar-nav.align-items-center .nav-item:first-child {
+            margin-left: 0.6rem; /* Adjust as needed */
+        }
+
+
+        /* Enhanced Dropdown Styles */
+        .dropdown-menu {
+            border-radius: var(--border-radius-small); /* Smaller border radius */
+            box-shadow: 0 8px 24px var(--shadow-light); /* Lighter shadow */
+            border: none;
+            padding: 0.8rem 0; /* Reduced padding */
+            margin-top: 0.3rem; /* Reduced margin */
+            background: var(--bg-card);
+            backdrop-filter: blur(8px); /* Less blur */
+        }
+
+        .dropdown-item {
+            padding: 0.6rem 1.2rem; /* Reduced padding */
+            transition: var(--transition);
+            border-radius: var(--border-radius-small);
+            margin: 0 0.3rem; /* Reduced margin */
+            font-weight: 500;
+            font-size: 0.9rem; /* Smaller font size */
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.08) 0%, rgba(243, 156, 18, 0.08) 100%); /* Lighter hover background */
+            color: var(--accent-color);
+            transform: translateX(6px); /* Less aggressive translate */
+        }
+
+        /* Enhanced Alert Styles */
+        .alert {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 8px 24px var(--shadow-light);
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Enhanced Card Styles */
+        .card, .chef-card {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            transition: var(--transition);
+            background: var(--gradient-card);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover, .chef-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px var(--shadow-medium);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .card-text {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-primary {
+            background: var(--gradient-accent);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #d63384 0%, #e67e22 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 8px 24px rgba(26, 26, 46, 0.3);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(26, 26, 46, 0.4);
+        }
+
+        /* Enhanced Footer Styles */
+        footer {
+            background: var(--gradient-primary);
+            color: var(--text-white);
+            padding: 4rem 0 2rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-bottom: 0.8rem;
+            display: block;
+            font-weight: 400;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-light);
+            transform: translateX(8px);
+        }
+
+        /* Enhanced Newsletter Form */
+        .newsletter-form {
+            margin-top: 1.5rem;
+        }
+
+        .newsletter-form .input-group {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .newsletter-form .form-control {
+            border: none;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 500;
+        }
+
+        .newsletter-form .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-form .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+            color: white;
+        }
+
+        .newsletter-form .btn {
+            background: var(--gradient-accent);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .newsletter-form .btn:hover {
+            background: linear-gradient(135deg, #d63384 0%, #e67e22 100%);
+            transform: scale(1.05);
+        }
+
+        /* Enhanced Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-accent);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #a0aec0;
+        }
+
+        /* Enhanced Form Styles */
+        .form-control {
+            border-radius: var(--border-radius);
+            border: 2px solid #e2e8f0;
+            padding: 0.8rem 1.2rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px var(--shadow-light);
+            background: var(--bg-card);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(233, 69, 96, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Enhanced Utility Classes */
+        .text-gradient {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .shadow-custom {
+            box-shadow: 0 16px 48px var(--shadow-medium) !important;
+        }
+
+        .border-radius-custom {
+            border-radius: var(--border-radius) !important;
+        }
+
+        /* Enhanced Animations */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.6rem; /* Further reduced for mobile */
+            }
+
+            .navbar .nav-link {
+                margin-right: 0;
+                padding: 0.4rem 0.8rem !important; /* Further reduced for mobile */
+                font-size: 0.85rem; /* Further reduced for mobile */
+            }
+
+            .navbar .d-flex {
+                margin-right: 0;
+                margin-bottom: 0.8rem; /* Slightly reduced margin */
+                width: 100%; /* Make search full width on small screens */
+            }
+
+            .navbar .form-control {
+                width: 100%; /* Make search input full width */
+            }
+
+            .navbar .btn-outline-success {
+                width: 100%; /* Make search button full width */
+                margin-top: 0.5rem; /* Add some space above the button */
+            }
+
+            .card:hover, .chef-card:hover {
+                transform: translateY(-6px) scale(1.01);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Floating Animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Background Patterns */
+        .bg-pattern {
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(243, 156, 18, 0.1) 0%, transparent 50%);
+        }
+
+        /* Custom CSS for Reservation Page */
+        header {
+            background: url('{% static "home/assets/dinings/THE-PRIVATE-ROOM-2-scaled.webp" %}') no-repeat center center/cover;
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(45deg, #fff, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow:
+                0 8px 32px rgba(233, 69, 96, 0.3),
+                0 16px 64px rgba(243, 156, 18, 0.2);
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560, #f39c12, #e94560);
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        form {
+            flex: 1 1 300px;
+        }
+
+        form h2 {
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #e94560, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-container form input,
+        .form-container form select,
+        .form-container form textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid rgba(233, 69, 96, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-container form input:focus,
+        .form-container form select:focus,
+        .form-container form textarea:focus {
+            outline: none;
+            border-color: #e94560;
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-container form button[type="submit"] {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, #e94560, #f39c12);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container form button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.4);
+        }
+
+        .form-container form button[type="submit"]:active {
+            transform: translateY(-1px);
+        }
+
+        .table-preview {
+            flex: 1 1 300px;
+        }
+
+        .table-preview h2 {
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #e94560, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .tables {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .table {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(243, 156, 18, 0.1));
+            padding: 2rem;
+            text-align: center;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(233, 69, 96, 0.2);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .table:hover::before {
+            left: 100%;
+        }
+
+        .table:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+            border-color: #e94560;
+        }
+
+        .table.selected {
+            background: linear-gradient(135deg, #e94560, #f39c12);
+            color: white;
+            border-color: #e94560;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4);
+        }
+
+        .table.selected::before {
+            display: none;
+        }
+
+        /* Confirmation Popup */
+        .confirmation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow:
+                0 20px 60px rgba(233, 69, 96, 0.3),
+                0 30px 120px rgba(243, 156, 18, 0.2);
+            z-index: 999;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .confirmation.show {
+            display: block;
+        }
+
+        .confirmation h3 {
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #e94560, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5rem;
+        }
+
+        .confirmation p {
+            margin-bottom: 1.5rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .confirmation button {
+            background: linear-gradient(45deg, #333, #555);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .confirmation button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Grid */
+        @media(max-width: 768px) {
+            .tables {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .tables {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 1rem;
+                margin: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Additional animations for enhanced UX */
+        .table {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .table:nth-child(1) { animation-delay: 0.1s; }
+        .table:nth-child(2) { animation-delay: 0.2s; }
+        .table:nth-child(3) { animation-delay: 0.3s; }
+        .table:nth-child(4) { animation-delay: 0.4s; }
+        .table:nth-child(5) { animation-delay: 0.5s; }
+        .table:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="bg-pattern">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home:home' %}">
+                {# <img src="{% static 'home/assets/images/logo.png' %}" alt="Logo"> #}
+                The Culinary Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home:home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'menu:index' %}">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home:reservation' %}">Reservation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home:contact' %}">Contact Us</a></li>
+                </ul>
+
+                <form class="d-flex" method="get" action="{% url 'menu:index' %}">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search delicious food..." value="{{ request.GET.q }}">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{% url 'menu:cart' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'home:profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'home:logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger" style="border: none; background: none;">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home:login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home:register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show fade-in" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <header>
+            <h1>Reserve Your Table</h1>
+        </header>
+
+        <div class="container">
+            <div class="form-container">
+                <form id="bookingForm" method="post">
+                    {% csrf_token %} {# Essential for Django forms #}
+                    <h2>Book Your Table</h2>
+
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Reservation Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">Reservation Time</label>
+                        <select id="time" name="time" required>
+                            <option value="">Select Time</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="18:30">6:30 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                            <option value="20:00">8:00 PM</option>
+                            <option value="20:30">8:30 PM</option>
+                            <option value="21:00">9:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <select id="guests" name="guests" required>
+                            <option value="">Select Guests</option>
+                            <option value="1">1 Person</option>
+                            <option value="2">2 People</option>
+                            <option value="3">3 People</option>
+                            <option value="4">4 People</option>
+                            <option value="5">5 People</option>
+                            <option value="6">6 People</option>
+                            <option value="7">7 People</option>
+                            <option value="8">8 People</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requests">Special Requests</label>
+                        <textarea id="requests" name="requests" rows="3" placeholder="Any special requirements or dietary restrictions..."></textarea>
+                    </div>
+
+                    <input type="hidden" id="selectedTable" name="selected_table">
+
+                    <button type="submit">Confirm Booking</button>
+                </form>
+
+                <div class="table-preview">
+                    <h2>Select Table</h2>
+                    <div class="tables">
+                        <div class="table" data-table="T1">Table 1</div>
+                        <div class="table" data-table="T2">Table 2</div>
+                        <div class="table" data-table="T3">Table 3</div>
+                        <div class="table" data-table="T4">Table 4</div>
+                        <div class="table" data-table="T5">Table 5</div>
+                        <div class="table" data-table="T6">Table 6</div>
+                        <div class="table" data-table="T6">Table 7</div>
+                        <div class="table" data-table="T6">Table 8</div>
+                        <div class="table" data-table="T6">Table 9</div>
+                        <div class="table" data-table="T6">Table 10</div>
+                        <div class="table" data-table="T6">Table 11</div>
+                        <div class="table" data-table="T6">Table 12</div>
+                        <div class="table" data-table="T6">Table 13</div>
+                        <div class="table" data-table="T6">Table 14</div>
+                        <div class="table" data-table="T6">Table 15</div>
+                        <div class="table" data-table="T6">Table 16</div>
+                        <div class="table" data-table="T6">Table 17</div>
+                        <div class="table" data-table="T6">Table 18</div>
+                        <div class="table" data-table="T6">Table 19</div>
+                        <div class="table" data-table="T6">Table 20</div>
+                        <div class="table" data-table="T6">Table 21</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="confirmation" id="confirmationBox">
+            <h3>🎉 Booking Confirmed!</h3>
+            <p>Your table has been reserved successfully. See you soon!</p>
+            <button onclick="closeConfirmationBox()">Close</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Culinary Hub</h3>
+                    <p>Experience the finest dining with our exquisite menu crafted by world-class chefs using the freshest ingredients.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="{% url 'home:home' %}">Home</a>
+                    <a href="{% url 'menu:index' %}">Menu</a>
+                    <a href="{% url 'home:reservation' %}">Reservation</a>
+                    <a href="{% url 'home:contact' %}">Contact</a>
+                    <a href="#">About Us</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> 123 Culinary Street, Food City, FC 12345</p>
+                    <p><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@culinaryhub.com</p>
+                    <p><i class="fas fa-clock me-2"></i> Mon-Sun: 11:00 AM - 11:00 PM</p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 The Culinary Hub. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enhanced smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.card, .chef-card, .alert, .footer-section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Enhanced form submission with loading states
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn && !submitBtn.disabled) {
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                    submitBtn.disabled = true;
+
+                    // Re-enable after 3 seconds if form hasn't been submitted
+                    setTimeout(() => {
+                        if (submitBtn.disabled) {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    }, 3000);
+                }
+            });
+        });
+
+        // Enhanced newsletter subscription (from the base code) - not directly used by booking form
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                const email = this.querySelector('input[type="email"]').value;
+                if (email) {
+                    // Show success message
+                    const successAlert = document.createElement('div');
+                    successAlert.className = 'alert alert-success mt-3 fade-in';
+                    successAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>Thank you for subscribing!';
+                    this.appendChild(successAlert);
+
+                    // Remove success message after 3 seconds
+                    setTimeout(() => {
+                        successAlert.remove();
+                    }, 3000);
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.15)';
+            } else {
+                navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)';
+            }
+        });
+
+        // JavaScript specific to Reservation Page (from your previous book_table.html)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tables = document.querySelectorAll(".table");
+            const selectedTableInput = document.getElementById("selectedTable");
+            let selectedTable = null;
+
+            tables.forEach(table => {
+                table.addEventListener("click", () => {
+                    tables.forEach(t => t.classList.remove("selected"));
+                    table.classList.add("selected");
+                    selectedTable = table.dataset.table;
+                    selectedTableInput.value = selectedTable;
+                });
+            });
+
+            const bookingForm = document.getElementById("bookingForm");
+            const confirmationBox = document.getElementById("confirmationBox");
+
+            if (bookingForm) {
+                bookingForm.addEventListener("submit", function(e) {
+                    if (!selectedTableInput.value) {
+                        alert("Please select a table before booking.");
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // For demo purposes, show confirmation
+                    e.preventDefault();
+                    document.getElementById("confirmationBox").classList.add("show");
+                    // In a real application, you would submit the form via AJAX or a full page post
+                    // and then conditionally show this success message based on the server's response.
+                });
+            }
+
+            // Function to show the confirmation box based on Django messages (still useful even without extends)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('reservation_success') === 'true') {
+                confirmationBox.classList.add('show');
+                history.replaceState({}, document.title, window.location.pathname); // Clean the URL
+            }
+        });
+
+        // Function to close the confirmation box
+        function closeConfirmationBox() {
+            document.getElementById('confirmationBox').classList.remove('show');
+        }
+    </script>
+</body>
+</html>

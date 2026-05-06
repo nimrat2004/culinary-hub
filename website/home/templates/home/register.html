@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Body/Container for the form centering and background */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #fdf7f0 0%, #f8f4f0 100%);
+        line-height: 1.6;
+        color: #333;
+        min-height: 100vh;
+    }
+
+    .register-container {
+        background: linear-gradient(135deg, #ed591c 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .register-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 650px;
+        width: 100%;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .register-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .register-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+        font-size: 2rem;
+        position: relative;
+    }
+
+    .register-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    /* Styles for Django forms rendered with .as_p */
+    .register-card form p {
+        margin-bottom: 15px;
+    }
+
+    .register-card form p label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+        font-weight: 400;
+        font-size: 0.9rem;
+    }
+
+    .register-card form p input[type="text"],
+    .register-card form p input[type="password"],
+    .register-card form p input[type="email"],
+    .register-card form p input[type="file"],
+    .register-card form p select {
+        width: 100%;
+        padding: 9px 9px;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        box-sizing: border-box;
+    }
+
+    /* --- MODIFICATION HERE: Specific styling for textarea (Address field) --- */
+    .register-card form p textarea {
+        width: 100%;
+        padding: 9px 9px;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        box-sizing: border-box;
+        height: 80px; /* Reduced fixed height for the textarea */
+        resize: vertical; /* Allows vertical resizing by the user */
+    }
+
+    .register-card form p input[type="text"]:focus,
+    .register-card form p input[type="password"]:focus,
+    .register-card form p input[type="email"]:focus,
+    .register-card form p input[type="file"]:focus,
+    .register-card form p select:focus,
+    .register-card form p textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-register {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        margin-top: 13px;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-register:active {
+        transform: translateY(0);
+    }
+
+    .btn-register::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn-register:hover::before {
+        left: 100%;
+    }
+
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0 0;
+    }
+
+    .errorlist li {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-bottom: 5px;
+    }
+
+    .helptext {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .register-card {
+            padding: 30px 20px;
+            margin: 20px;
+            max-width: 90%;
+        }
+        
+        .register-title {
+            font-size: 1.5rem;
+        }
+    }
+    
+    /* Animation for page load */
+    .register-card {
+        animation: slideUp 0.6s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <h2 class="register-title">Create Your Account</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <button type="submit" class="btn-register">Register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

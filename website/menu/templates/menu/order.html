@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Order {{ item.name }}{% endblock %}
+{% block content %}
+<div class="container col-md-6 mt-5">
+  <h2>Order Now: <strong>{{ item.name }}</strong></h2>
+  <p><strong>Price:</strong> ₹{{ item.price }}</p>
+  <form method="post" action="{% url 'menu:place_order' item.id %}">
+    {% csrf_token %}
+    
+    <label for="promo_code" class="form-label">Apply Promo Code (optional):</label>
+    <select name="promo_code" id="promo_code" class="form-select mb-3">
+      <option value="">No Promo</option>
+      {% for promo in promos %}
+        <option value="{{ promo.code }}">{{ promo.code }} - 
+          {% if promo.discount_type == "percentage" %}
+            {{ promo.discount_value }}% off
+          {% else %}
+            ₹{{ promo.discount_value }} off
+          {% endif %}
+        </option>
+      {% endfor %}
+    </select>
+    
+    <button type="submit" class="btn btn-success">Confirm Order</button>
+    <a href="{% url 'menu:index' %}" class="btn btn-secondary">Back to Menu</a>
+  </form>
+</div>
+{% endblock %}

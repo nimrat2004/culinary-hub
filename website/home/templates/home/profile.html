@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Profile{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Your Profile</h2>
+
+  <div class="card mx-auto" style="max-width: 500px;">
+    <div class="card-body text-center">
+      {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" class="rounded-circle mb-3" width="120" height="120" alt="Profile Photo">
+      {% else %}
+        <img src="{% static 'images/default-user.png' %}" class="rounded-circle mb-3" width="120" height="120" alt="Default Photo">
+      {% endif %}
+
+      <h4>{{ user.username }}</h4>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      
+      {% if profile.gender %}
+        <p><strong>Gender:</strong> {{ profile.get_gender_display }}</p>
+      {% endif %}
+      
+      {% if profile.address %}
+        <p><strong>Address:</strong> {{ profile.address }}</p>
+      {% endif %}
+      <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+<p><strong>Username:</strong> {{ user.username }}</p>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

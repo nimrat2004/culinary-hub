@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'home/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<header class="const">
+    <video autoplay loop muted playsinline class="video">
+        <source src="{% static 'home/assets/videos/restaurant.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</header>
+
+<main>
+
+    <section class="our-story fade-in">
+        <h2>Our Story</h2>
+        <p>Welcome to <strong>The Culinary Hub</strong> — where culinary excellence meets warm hospitality.</p>
+        <div class="story-content">
+            <div class="story-text">
+                <p style="--order: 1;">
+                    Founded in 2015 by Chef Nimrat, The Culinary Hub was born out of a dream to bring the flavors of the world to a single table. What started as a small corner eatery in the heart of the city has now evolved into a haven for food lovers, renowned for its handcrafted dishes and vibrant ambiance.
+                </p>
+                <p style="--order: 2;">
+                    Every plate served is a masterpiece — inspired by cultures across the globe and infused with passion, tradition, and innovation. Our chefs travel, learn, and experiment, blending global ingredients with local essence to create something extraordinary.
+                </p>
+                <p style="--order: 3;">
+                    At The Culinary Hub, dining is not just about eating. It’s about stories shared over meals, laughter echoing through candlelit dinners, and memories being created one flavor at a time. Whether you're here for a romantic evening, a business lunch, or a family celebration — we serve you more than food. We serve experiences.
+                </p>
+                <div class="menu-btn">
+                    <a href="{% url 'menu:index' %}" class="cta-button">View Full Menu</a>
+                </div>
+            </div>
+            <div class="slideshow">
+                <img src="{% static 'home/assets/dinings/pexels-pixabay-260922.jpg' %}" class="slide active" alt="Slide 1">
+                <img src="{% static 'home/assets/dinings/pexels-reneterp-1581384.jpg' %}" class="slide" alt="Slide 2">
+                <img src="{% static 'home/assets/dinings/pexels-chanwalrus-941861.jpg' %}" class="slide" alt="Slide 3">
+                <div class="dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="private-dining fade-in">
+    <h2>Private Dining</h2>
+    <div class="dining-content">
+        <img src="{% static 'home/assets/dinings/pexels-igor-starkov-233202-3025158.jpg' %}" alt="Dining Area">
+        <img src="{% static 'home/assets/dinings/pexels-pixabay-260922.jpg' %}" alt="Exclusive Tables" loading="lazy">
+        <img src="{% static 'home/assets/dinings/pexels-reneterp-1581384.jpg' %}" alt="Cozy Atmosphere" loading="lazy">
+        <img src="{% static 'home/assets/dinings/pexels-zahide-tas-367420941-19920240.jpg' %}" alt="Book Now" loading="lazy">
+        <img src="{% static 'home/assets/dinings/puts-glass-waiter-hand-gloves-worker-is-engaged-serving-table.jpg' %}" alt="Serving Experience" loading="lazy">
+        <img src="{% static 'home/assets/dinings/pexels-pixabay-260922.jpg' %}" alt="Dining Area" loading="lazy">
+    </div>
+<div class="dining-button">
+    <a href="{% url 'home:reservation' %}" class="cta-button">Book a Table</a>
+</div>
+
+
+</section>
+
+
+    <section class="our-chefs fade-in">
+        <h2>Meet Our Chefs</h2>
+        <div class="chef-cards">
+            <div class="chef-card">
+                <img src="{% static 'home/assets/team/team-1.jpg' %}" alt="Chef Anderson">
+                <h3>Chef Anderson</h3>
+                <p>Global Fusion Expert</p>
+            </div>
+            <div class="chef-card">
+                <img src="{% static 'home/assets/team/team-2.jpg' %}" alt="Chef Albert">
+                <h3>Chef Albert</h3>
+                <p>Pastry & Dessert Specialist</p>
+            </div>
+            <div class="chef-card">
+                <img src="{% static 'home/assets/team/team-3.jpg' %}" alt="Chef Aaryan">
+                <h3>Chef Aaryan</h3>
+                <p>Master of Indian Flavors</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="image-section">
+        <div class="button-container">
+            <a href="{% url 'menu:index' %}" class="cta-button">Explore Our Menu</a>
+        </div>
+        <div class="image-container">
+            <img src="{% static 'home/assets/dinings/pexels-chanwalrus-941861.jpg' %}" alt="Dining Experience" loading="lazy">
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'home/home.js' %}"></script>
+{% endblock %}

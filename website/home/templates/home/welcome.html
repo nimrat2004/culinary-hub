@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome to The Culinary Hub{% endblock %}
+
+{% block content %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .welcome-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e94560 0%, #f39c12 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Subtle animated background */
+  .background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="80" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    animation: subtleMove 20s linear infinite;
+  }
+
+  @keyframes subtleMove {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(-100px) translateY(-100px); }
+  }
+
+  /* Floating geometric shapes */
+  .geometric-shape {
+    position: absolute;
+    opacity: 0.1;
+    animation: floatGeometric 15s ease-in-out infinite;
+  }
+
+  .shape-1 {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .shape-2 {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.08);
+    transform: rotate(45deg);
+    top: 70%;
+    right: 15%;
+    animation-delay: 5s;
+  }
+
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 10s;
+  }
+
+  @keyframes floatGeometric {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+  }
+
+  /* Professional content container */
+  .welcome-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: white;
+    padding: 4rem 3rem;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    margin: 0 auto;
+    animation: slideInUp 1s ease-out;
+  }
+
+  @keyframes slideInUp {
+    from {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .welcome-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+
+  .welcome-content .tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    color: #f8f9fa;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+  }
+
+  .welcome-content .description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    color: #e9ecef;
+    opacity: 0.8;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    font-family: 'Poppins', sans-serif;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn:hover::before {
+    left: 100%;
+  }
+
+  .btn-primary {
+    background: linear-gradient(45deg, #e94560, #f39c12);
+    color: white;
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(233, 69, 96, 0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Subtle food icons */
+  .food-icon {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.15;
+    animation: gentleFloat 12s ease-in-out infinite;
+    color: white;
+  }
+
+  .food-icon:nth-child(1) { top: 15%; left: 12%; animation-delay: 0s; }
+  .food-icon:nth-child(2) { top: 25%; right: 18%; animation-delay: 2s; }
+  .food-icon:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 4s; }
+  .food-icon:nth-child(4) { bottom: 25%; right: 12%; animation-delay: 6s; }
+  .food-icon:nth-child(5) { top: 45%; left: 8%; animation-delay: 8s; }
+  .food-icon:nth-child(6) { top: 55%; right: 10%; animation-delay: 10s; }
+
+  @keyframes gentleFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
+  }
+
+  /* Professional loading animation */
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e94560 0%, #f39c12 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeOut 0.8s ease-out 1.5s forwards;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .welcome-content {
+      padding: 2.5rem 2rem;
+      margin: 1rem;
+    }
+    
+    .welcome-content h1 {
+      font-size: 2.8rem;
+    }
+    
+    .welcome-content .tagline {
+      font-size: 1.1rem;
+    }
+    
+    .welcome-content .description {
+      font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn {
+      width: 250px;
+      padding: 1rem 2rem;
+    }
+    
+    .food-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .welcome-content h1 {
+      font-size: 2.2rem;
+    }
+    
+    .welcome-content {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  /* Subtle parallax effect */
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    animation: parallaxMove 25s ease-in-out infinite;
+  }
+
+  @keyframes parallaxMove {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(-20px) translateY(-10px); }
+  }
+
+  /* Professional accent line */
+  .accent-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    margin: 1.5rem auto;
+    animation: lineGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes lineGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+</style>
+
+<div class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+
+<div class="welcome-container">
+  <!-- Background layers -->
+  <div class="background-overlay"></div>
+  <div class="parallax-layer"></div>
+
+  <!-- Subtle geometric shapes -->
+  <div class="geometric-shape shape-1"></div>
+  <div class="geometric-shape shape-2"></div>
+  <div class="geometric-shape shape-3"></div>
+
+  <!-- Professional food icons -->
+  <div class="food-icon">🍴</div>
+  <div class="food-icon">🍷</div>
+  <div class="food-icon">👨‍🍳</div>
+  <div class="food-icon">⭐</div>
+  <div class="food-icon">🥂</div>
+  <div class="food-icon">🍽️</div>
+
+  <!-- Main content -->
+  <div class="welcome-content">
+    <h1>The Culinary Hub</h1>
+    <div class="accent-line"></div>
+    <p class="tagline">Where Culinary Excellence Meets Modern Dining</p>
+    <p class="description">Experience exceptional cuisine crafted with passion and precision. Our commitment to quality ingredients and innovative techniques creates memorable dining experiences that celebrate the art of gastronomy.</p>
+    <div class="action-buttons">
+      <a href="{% url 'home:login' %}" class="btn btn-primary">Access Portal</a>
+      <a href="{% url 'home:register' %}" class="btn btn-secondary">Create Account</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Subtle parallax effect on mouse move
+  document.addEventListener('mousemove', function(e) {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    // Gentle parallax for geometric shapes
+    const shapes = document.querySelectorAll('.geometric-shape');
+    shapes.forEach((shape, index) => {
+      const speed = (index + 1) * 0.3;
+      const x = (mouseX - 0.5) * speed;
+      const y = (mouseY - 0.5) * speed;
+      shape.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Subtle parallax for food icons
+    const icons = document.querySelectorAll('.food-icon');
+    icons.forEach((icon, index) => {
+      const speed = (index + 1) * 0.2;
+      const x = (mouseX - 0.5) * speed;
+      const y = (mouseY - 0.5) * speed;
+      icon.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  });
+
+  // Professional button click effects
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+      `;
+      
+      this.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+  });
+});
+</script>
+
+<style>
+@keyframes ripple {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+</style>
+{% endblock %}

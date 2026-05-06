@@ -1,0 +1,903 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #fdf7f0;
+    color: #333;
+}
+
+/* Background Video */
+.const {
+    position: relative;
+    height: 70vh; /* Reduced height for a more compact header */
+    overflow: hidden;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Nav Container */
+.nav-container {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* Reduced padding */
+    z-index: 100;
+    transition: background 0.3s ease, padding 0.3s ease;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08); /* Reduced shadow */
+}
+
+.nav-container.scrolled {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px); /* Slightly reduced blur */
+    padding: 10px 40px; /* Reduced padding on scroll */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2); /* Reduced shadow */
+}
+
+/* Dropdown Menu */
+.left-menu {
+    position: relative;
+}
+
+.menu-icon {
+    font-size: 24px; /* Reduced font size */
+    color: white;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 45px; /* Adjusted position */
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px); /* Reduced blur */
+    display: none;
+    flex-direction: column;
+    padding: 12px; /* Reduced padding */
+    border-radius: 8px; /* Reduced rounding */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Reduced border opacity */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Reduced shadow */
+}
+
+.left-menu:hover .dropdown-menu {
+    display: flex;
+}
+
+.dropdown-menu a {
+    color: white;
+    padding: 8px 15px; /* Reduced padding */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px; /* Reduced font size */
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-radius: 4px; /* Reduced rounding */
+    margin-bottom: 4px; /* Reduced margin */
+}
+
+.dropdown-menu a:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-menu a:hover {
+    color: #FFD700;
+    background-color: rgba(255, 255, 255, 0.08); /* Reduced opacity */
+}
+
+/* Site Name */
+.site-name h1 {
+    font-size: 30px; /* Reduced font size */
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px; /* Reduced letter spacing */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* Reduced shadow */
+}
+
+/* Right Icons */
+.right-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Reduced gap */
+}
+
+#navbar .option {
+    display: flex;
+    gap: 20px; /* Reduced gap */
+}
+
+#navbar .option a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 15px; /* Reduced font size */
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+#navbar .option a:hover {
+    color: #FFD700;
+    transform: translateY(-1px); /* Reduced lift */
+}
+
+.profile-pic {
+    width: 35px; /* Reduced size */
+    height: 35px; /* Reduced size */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.7); /* Reduced border */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Reduced shadow */
+}
+
+.cart-icon {
+    color: white;
+    font-size: 22px; /* Reduced font size */
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.cart-icon:hover {
+    transform: scale(1.1); /* Reduced scale */
+    color: #FFD700;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px; /* Further reduced padding */
+    background: linear-gradient(135deg, #FFA500, #e94560);
+    color: #444;
+    text-decoration: none;
+    border-radius: 6px; /* Further reduced rounding */
+    font-weight: 600; /* Slightly reduced font weight */
+    font-size: 1rem; /* Further reduced font size */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.2px; /* Reduced letter spacing */
+}
+
+.cta-button:hover {
+    transform: translateY(-2px); /* Further reduced lift */
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25); /* Further reduced shadow */
+    background: linear-gradient(135deg, #FFD700, #e94560);
+    color: #222;
+}
+
+/* Our Story Section */
+.our-story {
+    padding: 60px 30px; /* Further reduced padding */
+    text-align: center;
+    background: #FFF;
+    opacity: 0;
+    transform: translateY(20px); /* Reduced transform */
+    transition: all 0.8s ease; /* Reduced transition time */
+}
+
+.our-story.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.our-story h2 {
+    font-size: 38px; /* Further reduced heading size */
+    color: #e94560;
+    margin-bottom: 30px; /* Further reduced margin */
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+    letter-spacing: 0.8px; /* Reduced letter spacing */
+}
+
+.our-story h2::after {
+    content: '';
+    position: absolute;
+    width: 80px; /* Further reduced line width */
+    height: 2px; /* Further reduced line thickness */
+    background-color: #e94560;
+    bottom: -12px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.our-story > p {
+    font-size: 16px; /* Further reduced font size */
+    max-width: 700px; /* Further reduced max-width */
+    margin: 0 auto 30px; /* Further reduced margin-bottom */
+    color: #444;
+    line-height: 1.6; /* Adjusted line height */
+    letter-spacing: 0.1px; /* Reduced letter spacing */
+}
+
+.our-story .story-text strong {
+    font-weight: 700;
+    color: #e94560;
+    text-decoration: none;
+    border-bottom: 1px solid #e94560; /* Reduced border thickness */
+    padding-bottom: 1px; /* Reduced padding */
+    transition: all 0.3s ease;
+}
+
+.our-story .story-text strong:hover {
+    color: #a15c45;
+    border-color: #e94560;
+}
+
+.story-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Further reduced gap */
+    align-items: center;
+    max-width: 1000px; /* Further reduced max-width */
+    margin: 0 auto;
+}
+
+.story-text {
+    flex: 1;
+    min-width: 280px; /* Further reduced min-width */
+    max-width: 500px; /* Further reduced max width */
+    text-align: left;
+    padding: 20px; /* Further reduced padding */
+    background: #fefcf9;
+    border-radius: 12px; /* Further reduced rounding */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Further reduced shadow */
+    line-height: 1.6;
+}
+
+.story-text p {
+    margin-bottom: 15px; /* Further reduced space */
+    font-size: 15px; /* Further reduced text size */
+    color: #333;
+    transform: translateX(-40px); /* Reduced transform */
+    opacity: 0;
+    animation: slide-in 0.5s forwards; /* Reduced animation time */
+    animation-delay: calc(var(--order) * 0.15s); /* Reduced delay */
+}
+
+@keyframes slide-in {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Slideshow Size */
+.slideshow {
+    flex: 1;
+    min-width: 280px; /* Further reduced min-width */
+    max-width: 400px; /* Further reduced max width */
+    position: relative;
+    height: 350px; /* Further reduced height */
+    overflow: hidden;
+    border-radius: 15px; /* Further reduced rounding */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    border: 3px solid #fdf7f0; /* Further reduced border */
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease; /* Reduced transition time */
+    object-fit: cover;
+}
+
+.slide.active {
+    opacity: 1;
+    display: block;
+}
+
+.dots {
+    position: absolute;
+    bottom: 15px; /* Adjusted position */
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 5;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px; /* Further reduced size */
+    height: 10px;
+    margin: 0 6px; /* Further reduced space */
+    background: rgba(255, 255, 255, 0.7); /* Reduced opacity */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.08); /* Reduced border opacity */
+}
+
+.dot.active {
+    background: #e94560;
+    transform: scale(1.2); /* Further reduced scale */
+    border-color: #e94560;
+}
+
+.menu-btn {
+    margin-top: 30px; /* Further reduced space */
+}
+
+/* Private Dining Section Size */
+.private-dining {
+    padding: 60px 30px; /* Further reduced padding */
+    background: #fef6f0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px); /* Reduced transform */
+    transition: all 0.8s ease; /* Reduced transition time */
+    border-top: 6px solid #fdf7f0; /* Further reduced border thickness */
+}
+
+.private-dining.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.private-dining h2 {
+    font-size: 38px; /* Further reduced heading size */
+    color: #8c4b32;
+    margin-bottom: 40px; /* Further reduced margin */
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+    letter-spacing: 0.8px; /* Reduced letter spacing */
+}
+
+.private-dining h2::after {
+    content: '';
+    position: absolute;
+    width: 80px; /* Further reduced line width */
+    height: 2px; /* Further reduced line thickness */
+    background-color: #e94560;
+    bottom: -12px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Private Dining Images */
+.dining-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px; /* Further reduced gap */
+    margin-top: 20px; /* Further reduced margin */
+    max-width: 1000px; /* Further reduced max width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dining-content img {
+    width: 250px; /* Further reduced image width */
+    height: 170px; /* Further reduced image height */
+    border-radius: 15px; /* Further reduced rounding */
+    object-fit: cover;
+    transition: all 0.4s; /* Reduced transition time */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    border: 3px solid #fff; /* Further reduced border */
+}
+
+.dining-content img:hover {
+    transform: translateY(-10px) scale(1.03); /* Further reduced hover effect */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25); /* Further reduced shadow */
+}
+
+.dining-button {
+    margin-top: 40px; /* Further reduced space */
+}
+
+/* Chef Section Size and Div Containers */
+.our-chefs {
+    padding: 60px 30px; /* Further reduced padding */
+    background: #FFF;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px); /* Reduced transform */
+    transition: all 0.8s ease; /* Reduced transition time */
+    border-top: 6px solid #fef6f0; /* Further reduced border thickness */
+}
+
+.our-chefs.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.our-chefs h2 {
+    font-size: 38px; /* Further reduced heading size */
+    color: #e94560;
+    margin-bottom: 40px; /* Further reduced margin */
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+    letter-spacing: 0.8px; /* Reduced letter spacing */
+}
+
+.our-chefs h2::after {
+    content: '';
+    position: absolute;
+    width: 80px; /* Further reduced line width */
+    height: 2px; /* Further reduced line thickness */
+    background-color: #e94560;
+    bottom: -12px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.chef-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px; /* Further reduced gap */
+    margin-top: 20px; /* Further reduced margin */
+    max-width: 900px; /* Further reduced max-width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chef-card {
+    width: 250px; /* Further reduced width of the div container */
+    background: white;
+    padding: 30px 20px 25px; /* Further reduced padding */
+    border-radius: 15px; /* Further reduced rounding */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    transition: all 0.4s; /* Reduced transition time */
+    position: relative;
+    overflow: hidden;
+}
+
+.chef-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px; /* Further reduced thickness */
+    background: linear-gradient(90deg, #FFD700, #e94560);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.chef-card:hover {
+    transform: translateY(-15px); /* Further reduced lift */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); /* Further reduced shadow */
+}
+
+.chef-card img {
+    width: 140px; /* Further reduced image size */
+    height: 140px; /* Further reduced image size */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fef6f0; /* Further reduced border */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    transition: all 0.4s ease; /* Reduced transition time */
+}
+
+.chef-card:hover img {
+    transform: scale(1.08); /* Further reduced scale */
+    border-color: #e94560;
+}
+
+.chef-card h3 {
+    margin-top: 20px; /* Further reduced space */
+    font-size: 20px; /* Further reduced text size */
+    color: #e94560;
+    letter-spacing: 0.3px; /* Reduced letter spacing */
+}
+
+.chef-card p {
+    font-size: 15px; /* Further reduced text size */
+    color: #666;
+    margin-top: 6px; /* Further reduced space */
+}
+
+/* Footer styles for links (assuming footer is in base.html) */
+footer ul li a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 16px; /* Reduced font size */
+}
+
+footer ul li a:hover {
+    color: #e94560;
+}
+
+/* Image Section Size and Full Image Coverage */
+.image-section {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 60px 0; /* Further reduced padding */
+    overflow: hidden;
+    text-align: center;
+    background: #fdf7f0;
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.03); /* Further reduced shadow */
+    border-top: 6px solid #FFF; /* Further reduced border thickness */
+}
+
+.button-container {
+    margin-bottom: 30px; /* Further reduced space */
+}
+
+.image-container {
+    max-width: 100%; /* Ensure it can stretch */
+    width: 100%; /* Take full width of parent */
+    margin: 0 auto;
+    padding: 0 20px; /* Further reduced padding */
+    /* Add display flex to ensure full height for image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Define a height for the container to control image size if needed */
+    height: 400px; /* Example height, adjust as necessary */
+}
+
+.image-container img {
+    width: 100%; /* Image takes 100% width of its container */
+    height: 100%; /* Image takes 100% height of its container */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 20px; /* Further reduced rounding */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Further reduced shadow */
+    border: 5px solid #FFF; /* Further reduced border */
+}
+
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #0d0d0d;
+    color: #f2f2f2;
+}
+
+.dark-mode .nav-container {
+    background: rgba(0, 0, 0, 0.95) !important;
+    box-shadow: 0 1px 8px rgba(255, 255, 255, 0.05); /* Adjusted dark mode shadow */
+}
+.dark-mode .nav-container.scrolled {
+    background: rgba(0, 0, 0, 0.98) !important;
+    box-shadow: 0 2px 12px rgba(255, 255, 255, 0.1); /* Adjusted dark mode shadow */
+}
+
+.dark-mode .dropdown-menu {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Adjusted dark mode border */
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1); /* Adjusted dark mode shadow */
+}
+.dark-mode .dropdown-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Adjusted dark mode hover */
+}
+
+.dark-mode .our-story,
+.dark-mode .our-chefs {
+    background: #1a1a1a;
+    color: #eee;
+}
+.dark-mode .private-dining,
+.dark-mode .image-section {
+    background: #222222;
+    color: #eee;
+}
+
+.dark-mode .our-story .story-text {
+    background: #2a2a2a;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.03); /* Adjusted dark mode shadow */
+}
+.dark-mode .our-story .story-text strong {
+    color: #FFD700;
+    border-color: #FFA500;
+}
+.dark-mode .our-story .story-text strong:hover {
+    color: #FFF;
+    border-color: #FFD700;
+}
+.dark-mode .story-text p {
+    color: #ccc;
+}
+
+
+.dark-mode .chef-card {
+    background-color: #2e2e2e !important;
+    box-shadow: 0 15px 30px rgba(255, 255, 255, 0.05); /* Adjusted dark mode shadow */
+}
+.dark-mode .chef-card::before {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+}
+.dark-mode .chef-card img {
+    border-color: #3e3e3e;
+}
+.dark-mode .chef-card:hover img {
+    border-color: #FFA500;
+}
+
+.dark-mode .dining-content img,
+.dark-mode .image-container img {
+    border-color: #3e3e3e;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.03); /* Adjusted dark mode shadow */
+}
+.dark-mode .dining-content img:hover,
+.dark-mode .image-container img:hover {
+    box-shadow: 0 15px 25px rgba(255, 255, 255, 0.08); /* Adjusted dark mode shadow */
+}
+
+.dark-mode footer { /* This rule applies if a footer exists in base.html */
+    background-color: #050505;
+    color: #bbb;
+    border-top-color: #2a2a2a;
+}
+
+.dark-mode .cta-button {
+    background: linear-gradient(135deg, #FFBF00, #FF8C00);
+    color: #fff;
+    box-shadow: 0 8px 15px rgba(255, 255, 255, 0.08); /* Adjusted dark mode shadow */
+}
+.dark-mode .cta-button:hover {
+    background: linear-gradient(135deg, #FF8C00, #FFBF00);
+    box-shadow: 0 12px 20px rgba(255, 255, 255, 0.15); /* Adjusted dark mode shadow */
+    color: #fff;
+}
+
+.dark-mode h2, .dark-mode h3, .dark-mode h4 {
+    color: #FFD700;
+}
+.dark-mode .our-story h2::after,
+.dark-mode .private-dining h2::after,
+.dark-mode .our-chefs h2::after,
+.dark-mode footer h4::after {
+    background-color: #FFA500;
+}
+
+.dark-mode .site-name h1,
+.dark-mode #navbar .option a,
+.dark-mode .profile-pic,
+.dark-mode .cart-icon,
+.dark-mode .menu-icon {
+    color: #FFD700;
+}
+.dark-mode #navbar .option a:hover {
+    color: #FFF;
+}
+.dark-mode .profile-pic {
+    border-color: #FFD700;
+}
+.dark-mode .cart-icon:hover {
+    color: #FFF;
+}
+.dark-mode .dot.active {
+    background: #FFD700;
+    border-color: #FFA500;
+}
+
+/* Dark mode section borders */
+.dark-mode .private-dining {
+    border-top-color: #1a1a1a;
+}
+.dark-mode .our-chefs {
+    border-top-color: #222222;
+}
+.dark-mode .image-section {
+    border-top-color: #1a1a1a;
+}
+.dark-mode footer {
+    border-top-color: #1a1a1a;
+}
+
+/* Toggle Button */
+#theme-toggle {
+    position: fixed;
+    top: 15px; /* Adjusted position */
+    right: 15px; /* Adjusted position */
+    background: #8c4b32;
+    color: white;
+    border: none;
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Reduced rounding */
+    cursor: pointer;
+    z-index: 1000;
+    font-weight: bold;
+    font-size: 14px; /* Reduced font size */
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+    background: #a15c45;
+    transform: scale(1.03); /* Reduced scale */
+}
+
+body.dark-mode #theme-toggle {
+    background: #FFD700;
+    color: #333;
+}
+body.dark-mode #theme-toggle:hover {
+    background: #FFA500;
+}
+
+/* Ripple effect */
+.cta-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2); /* Reduced opacity */
+    transform: scale(0);
+    animation: ripple-animation 0.5s linear; /* Reduced animation time */
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(3.5); /* Reduced scale */
+        opacity: 0;
+    }
+}
+
+
+/* Responsive Adjustments (optimized for smaller sizes) */
+@media (max-width: 1024px) {
+    .nav-container, .nav-container.scrolled {
+        padding: 10px 25px; /* Further adjusted */
+    }
+    .site-name h1 {
+        font-size: 28px; /* Further adjusted */
+    }
+    #navbar .option a {
+        font-size: 13px; /* Further adjusted */
+    }
+    .our-story h2, .private-dining h2, .our-chefs h2 {
+        font-size: 36px; /* Further adjusted */
+    }
+    .our-story > p {
+        font-size: 16px; /* Further adjusted */
+        max-width: 650px; /* Further adjusted */
+    }
+    .story-content {
+        flex-direction: column;
+        gap: 25px; /* Further adjusted */
+    }
+    .story-text {
+        min-width: unset;
+        max-width: 95%; /* Further adjusted */
+        margin: 0 auto;
+        padding: 18px; /* Further adjusted */
+    }
+    .story-text p {
+        font-size: 14px; /* Further adjusted */
+    }
+    .slideshow {
+        min-width: unset;
+        max-width: 95%; /* Further adjusted */
+        margin: 0 auto;
+        height: 320px; /* Further adjusted */
+    }
+    .chef-card {
+        width: 240px; /* Further adjusted */
+        padding: 30px 18px 20px; /* Further adjusted */
+    }
+    .chef-card img {
+        width: 130px; /* Further adjusted */
+        height: 130px; /* Further adjusted */
+    }
+    .dining-content img {
+        width: 230px; /* Further adjusted */
+        height: 150px; /* Further adjusted */
+    }
+    .image-container {
+        height: 350px; /* Adjusted height for responsive */
+    }
+    footer #container {
+        flex-direction: column;
+        align-items: center;
+    }
+    footer .footer-col {
+        min-width: 95%;
+        text-align: center;
+        margin-bottom: 20px; /* Further adjusted */
+    }
+    footer h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container, .nav-container.scrolled {
+        padding: 8px 10px; /* Further adjusted */
+    }
+    .site-name h1 {
+        font-size: 24px; /* Further adjusted */
+    }
+    .right-icons {
+        gap: 8px; /* Further adjusted */
+    }
+    #navbar .option {
+        display: none;
+    }
+    .our-story, .private-dining, .our-chefs, .image-section {
+        padding: 50px 15px; /* Further adjusted */
+    }
+    .our-story h2, .private-dining h2, .our-chefs h2 {
+        font-size: 30px; /* Further adjusted */
+    }
+    .our-story > p {
+        font-size: 15px; /* Further adjusted */
+    }
+    .story-text p {
+        font-size: 13px; /* Further adjusted */
+    }
+    .slideshow {
+        height: 280px; /* Further adjusted */
+    }
+    .chef-card {
+        width: 98%; /* Further adjusted */
+        max-width: 260px; /* Further adjusted */
+    }
+    .dining-content img {
+        width: 98%; /* Further adjusted */
+        max-width: 260px; /* Further adjusted */
+        height: auto;
+    }
+    .image-container {
+        height: 300px; /* Adjusted height for responsive */
+    }
+    footer {
+        padding: 40px 15px; /* Further adjusted */
+    }
+    footer h3 {
+        font-size: 22px; /* Further adjusted */
+    }
+    footer h4 {
+        font-size: 16px; /* Further adjusted */
+    }
+    footer input[type="email"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-bottom: 0;
+    }
+    .site-name {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 8px; /* Further adjusted */
+    }
+    .left-menu, .right-icons {
+        width: 50%;
+        justify-content: center;
+        margin-bottom: 8px; /* Further adjusted */
+    }
+    .our-story h2, .private-dining h2, .our-chefs h2 {
+        font-size: 26px; /* Further adjusted */
+    }
+    .cta-button {
+        padding: 8px 16px; /* Further adjusted */
+        font-size: 0.9rem; /* Further adjusted */
+    }
+    .chef-card img {
+        width: 100px; /* Further adjusted */
+        height: 100px; /* Further adjusted */
+    }
+    .image-container {
+        height: 250px; /* Adjusted height for responsive */
+    }
+}

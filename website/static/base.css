@@ -1,0 +1,50 @@
+/* Fade-in visibility */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dark mode toggle button */
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .dropdown-menu,
+body.dark-mode .card,
+body.dark-mode .chef-card,
+body.dark-mode footer {
+  background-color: #1f1f1f !important;
+  color: #f0f0f0;
+}
+
+body.dark-mode .btn-outline-success {
+  border-color: #ff5722;
+  color: #ff5722;
+}
+
+body.dark-mode .btn-outline-success:hover {
+  background-color: #ff5722;
+  color: white;
+}
